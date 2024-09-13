@@ -13,7 +13,7 @@ db.init_app(app)
 # Criando as tabelas e populando o banco de dados com leads fictícios
 with app.app_context():
 	db.create_all()
-	generate_leads()
+	generate_leads(50)
 
 if __name__ == '__main__':
 	app.run(debug=True)

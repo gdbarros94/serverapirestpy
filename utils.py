@@ -1,17 +1,20 @@
-import random
-from models import Lead, db
+from faker import Faker
+from models import Lead
+from database import db
 
-# Função para gerar leads fictícios
-def generate_leads():
-	names = ['John Doe', 'Jane Smith', 'Chris Johnson', 'Patricia Brown', 'Michael Williams']
-	interests = ['Tecnologia', 'Saúde', 'Educação', 'Marketing', 'Design']
+fake = Faker()
 
-	for _ in range(100):
-		name = random.choice(names)
-		latitude = random.uniform(-90, 90)
-		longitude = random.uniform(-180, 180)
-		temperature = random.uniform(10, 40)
-		interest = random.choice(interests)
-		lead = Lead(name, latitude, longitude, temperature, interest)
-		db.session.add(lead)
-		db.session.commit()
+def generate_leads(n):
+    for _ in range(n):
+        lead = Lead(
+            name=fake.name(),
+            latitude=fake.latitude(),
+            longitude=fake.longitude(),
+            temperature=fake.random_int(min=35, max=40),
+            interest=fake.word(),
+            email=fake.email(), #desafio 1.
+            telefone=fake.phone_number() #desafio 1.
+        )
+        db.session.add(lead)
+    db.session.commit()
+
