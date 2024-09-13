@@ -11,9 +11,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db_connection = DatabaseConnection(app)
 db_connection.initialize_db(app)
 
-
 # Inicializando a API com as rotas
 api_handler = LeadAPIHandler(app, db_connection.get_db())
 
-if __name__ == '__main__':
-	app.run(debug=True)
+if __name__ == "__main__":
+    with app.app_context():  # desafio 3
+        app.run(debug=True)
