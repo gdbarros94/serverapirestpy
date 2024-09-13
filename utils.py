@@ -4,7 +4,7 @@ from database import db
 
 fake = Faker()
 
-def generate_leads(n):
+def generate_fake_leads(n):
     for _ in range(n):
         lead = Lead(
             name=fake.name(),
@@ -12,9 +12,8 @@ def generate_leads(n):
             longitude=fake.longitude(),
             temperature=fake.random_int(min=35, max=40),
             interest=fake.word(),
-            email=fake.email(), #desafio 1.
-            telefone=fake.phone_number() #desafio 1.
+            email=fake.unique.email(),  #desafio 1., desafio 2.
+            telefone=fake.phone_number()  #desafio 1., desafio 2.
         )
         db.session.add(lead)
     db.session.commit()
-

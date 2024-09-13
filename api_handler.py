@@ -19,32 +19,39 @@ class LeadAPIHandler:
 		lead = self.lead_service.get_lead_by_id(id)
 		return jsonify(lead.as_dict())
 
-	def create_lead(self):
+	def create_lead(self):  # Operação de criação de lead
 		data = request.json
-		self.lead_service.create_lead( #desafio 1.
-        	name=data['name'], #desafio 1.
-        	latitude=data['latitude'], #desafio 1.
-        	longitude=data['longitude'], #desafio 1.
-        	temperature=data['temperature'], #desafio 1.
-        	interest=data['interest'], #desafio 1.
-        	email=data['email'], #desafio 1.
-        	telefone=data['telefone'] #desafio 1.
-    	)
-		return jsonify({"message": "Lead criado com sucesso!"}), 201
+		try:
+			self.lead_service.create_lead(
+                name=data['name'],
+                latitude=data['latitude'],
+                longitude=data['longitude'],
+                temperature=data['temperature'],
+                interest=data['interest'],
+                email=data['email'],  #desafio 1.
+                telefone=data['telefone']  #desafio 1.
+            )
+			return jsonify({"message": "Lead criado com sucesso!"}), 201
+		except ValueError as e:  #desafio 2.
+			return jsonify({"error": str(e)}), 400  #desafio 2.
+		
+	def update_lead(self, id):  # Operação de atualização de lead
+		data = request.json
+		try:
+			self.lead_service.update_lead(
+                lead_id=id,
+                name=data['name'],
+                latitude=data['latitude'],
+                longitude=data['longitude'],
+                temperature=data['temperature'],
+                interest=data['interest'],
+                email=data['email'],  #desafio 1.
+                telefone=data['telefone']  #desafio 1.
+            )
+			return jsonify({"message": "Lead atualizado com sucesso!"})
+		except ValueError as e:  #desafio 2.
+			return jsonify({"error": str(e)}), 400  #desafio 2.
 
-	def update_lead(self, id):
-		data = request.json
-		self.lead_service.update_lead( #desafio 1.
-        	lead_id=id, #desafio 1.
-        	name=data['name'], #desafio 1.
-        	latitude=data['latitude'], #desafio 1.
-        	longitude=data['longitude'], #desafio 1.
-        	temperature=data['temperature'], #desafio 1.
-        	interest=data['interest'], #desafio 1.
-        	email=data['email'], #desafio 1.
-        	telefone=data['telefone'] #desafio 1.
-    	)
-		return jsonify({"message": "Lead atualizado com sucesso!"})
 
 	def delete_lead(self, id):
 		self.lead_service.delete_lead(id)
